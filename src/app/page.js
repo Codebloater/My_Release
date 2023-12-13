@@ -41,40 +41,40 @@ export default function Home() {
   ];
 
   return (
-    <main className="flex min-h-screen flex-col relative  items-center">
+    <main className="flex min-h-screen flex-col relative items-center">
       {/* --------- NAVBAR SECTION --------- */}
       <nav className=" flex fixed top-0 left-0 right-0 justify-between items-center py-8 px-20 ">
         {/* LEFT SECTION */}
-        <div className="text-white flex justify-center items-center gap-6">
+        <div className=" flex justify-center items-center gap-6">
           <Image alt="PoolFi Logo Svg " src={Logo} width={20} height={20} />
-          <h2 className="text-lg font-semibold">Poolfi</h2>
+          <h2 className="text-lg text-black font-semibold">Poolfi</h2>
         </div>
         {/* END SECTION */}
         <div className="">
           <Link
             href={"./demo"}
-            className="text-white border-[1px] hover:bg-white hover:text-black text-sm rounded-full py-2 px-3"
+            className="text-black border-[1px] hover:bg-black hover:text-white hover:border-black text-sm rounded-full py-2 px-3"
           >
             LAUNCH DEMO
           </Link>
         </div>
       </nav>
       {/* --------- HERO SECTION --------- */}
-      <div className="flex flex-col gap-5 min-h-screen min-w-full justify-center items-center bg-[url('../assets/abstract.png')] bg-no-repeat bg-center">
+      <div className="flex flex-col gap-5 min-h-screen min-w-full justify-center items-center bg-[url('../assets/heroBanner.png')] bg-no-repeat bg-center">
         {/* NEWS UPDATE SECTION */}
-        <div className="flex justify-center items-center gap-5 bg-gray-400 py-1 px-3 rounded-full bg-opacity-30">
+        {/* <div className="flex justify-center items-center gap-5 bg-gray-400 py-1 px-3 rounded-full bg-opacity-30">
           <span className="relative flex h-3 w-3">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-3 w-3  bg-green-500"></span>
           </span>
-          <p className="text-white text-base">New Update in Every 2 Days!</p>
-        </div>
+          <p className="text-black text-base">New Update in Every 2 Days!</p>
+  </div> */}
         {/* HERO BANNER SECTION */}
         <div className="flex flex-col gap-12">
-          <h2 className="text-white text-7xl text-center">
+          <h2 className="text-black text-7xl text-center">
             Platform to Manage Multiple Liquidity Pools
           </h2>
-          <p className="text-gray-300 text-center text-lg  font-normal">
+          <p className="text-gray-400 text-center text-lg  font-normal">
             Seamlessly deploy and manage liquidity pools across multiple
             decentralized exchanges, optimizing your portfolio for maximum
             returns.
@@ -90,7 +90,7 @@ export default function Home() {
             </button>
            </div> */}
           {/* FOLLOW US SECTION */}
-          <div className="flex text-white justify-center items-center gap-5">
+          <div className="flex text-black justify-center items-center gap-5">
             <Link href={"https://twitter.com/pool_fi"}>
               <FaXTwitter size={25} />
             </Link>
@@ -106,9 +106,14 @@ export default function Home() {
           {featuresSection.map((element, index) => (
             <div
               key={index + 1}
-              className="bg-black flex flex-col gap-6 py-10  px-2 w-80 h-80 rounded-md  justify-center items-center"
+              className="bg-gray-400 flex flex-col gap-6 py-10  px-2 w-80 h-80 rounded-md  justify-center items-center"
             >
-              <Image src={element.logo} width={70} height={70} />
+              <Image
+                src={element.logo}
+                width={70}
+                height={70}
+                alt="Features Icons"
+              />
               <h2 className="text-white text-center pt-2 text-base font-semibold">
                 {element.heading}
               </h2>

@@ -4,11 +4,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import { UniswapIcon, PancakeSwapIcon, SushiSwapIcon } from "@/assets/dexs";
 import { ethereum } from "@/assets/blockchains";
 import LoadingGIF from "@/assets/Loading.gif";
-import { FaArrowRight } from "react-icons/fa6";
 import { AiFillCheckCircle } from "react-icons/ai";
+import { allDexs } from "./constants/Variables";
+import { CiSearch } from "react-icons/ci";
+import { query } from "./constants/Query";
+import PoolCard from "./components/PoolCard";
 
 const Demo = () => {
   // ----- USESTATE DECLARATIONS -----
@@ -16,6 +18,8 @@ const Demo = () => {
   const [currentDexInfo, setCurrentDexInfo] = useState(0);
   const [currentDexContent, setCurrentDexContent] = useState([]);
   const [dexBannerData, setDexBannerData] = useState(0);
+  const [isSearchEnabled, setIsSearchEnabled] = useState(true);
+  const [poolSearchState, setPoolSearchState] = useState("");
 
   // ----- USEFFECT HOOK DECLARATIONS -----
   useEffect(() => {
@@ -27,6 +31,7 @@ const Demo = () => {
   }, [currentDexInfo, currentDex]);
 
   // ----- FUNCTIONS DECLARATIONS -----
+  //~ ----- fetchLiquidityPool -----
   const fetchLiquidityPool = async () => {
     //here id is Pool Address
 
@@ -34,27 +39,6 @@ const Demo = () => {
     let totalPoolCount = 0;
 
     try {
-      const query = `{
-        factories {
-          poolCount
-      }
-      pools(orderBy: volumeUSD, orderDirection: desc, first: 1000){
-        id
-        token0 {
-          name
-          symbol
-          totalSupply
-        }
-        token1 {
-          name
-          symbol
-          totalSupply
-        }
-        feeTier
-        totalValueLockedToken0
-        totalValueLockedToken1
-      }
-    }`;
       let response = await axios.post(allDexs[currentDex].graphQlEndpoint, {
         query: query
       });
@@ -62,54 +46,46 @@ const Demo = () => {
       allData = response.data.data.pools;
       totalPoolCount = response.data.data.factories[0].poolCount;
     } catch (error) {
-      console.log(error);
+      console.log("fetchLiquidityPool", error);
     }
 
     setCurrentDexContent(allData);
+    setIsSearchEnabled(false);
     setDexBannerData(totalPoolCount);
   };
 
-  // ----- CONSTANTS DECLARATIONS -----
-  let allDexs = [
-    {
-      name: "UniSwap V3",
-      about:
-        "Uniswap is a decentralized protocol for automated token exchange on Ethereum.",
-      icon: UniswapIcon,
-      factoryContract: "0x1F98431c8aD98523631AE4a59f267346ea31F984",
-      graphQlEndpoint:
-        "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3"
-    },
-    {
-      name: "PancakeSwap V3",
-      about:
-        "PancakeSwap is a multi-chain decentralized exchange and automated market maker protocol.",
-      icon: PancakeSwapIcon,
-      factoryContract: "",
-      graphQlEndpoint:
-        "https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-eth"
-    },
-    {
-      name: "SushiSwap V3",
-      about: "A leading multi-chain DEX deployed across 30+ blockchains.",
-      icon: SushiSwapIcon,
-      factoryContract: "",
-      graphQlEndpoint:
-        "https://api.thegraph.com/subgraphs/name/sushi-v3/v3-ethereum"
-    }
-  ];
+  //~ ----- handleOnSearchPool -----
+  const handleOnSearchPool = (e) => {
+    setPoolSearchState(e.target.value);
 
-  let dexContentNavHeading = [
+    if (e.target.value === "") {
+      fetchLiquidityPool();
+    }
+
+    let targetPool = e.target.value;
+    let collectedData = [];
+
+    let allData = currentDexContent;
+    allData.forEach((element) => {
+      if (element.id === targetPool) {
+        collectedData.push(element);
+      }
+    });
+
+    setCurrentDexContent(collectedData);
+  };
+
+  const dexContentNavHeading = [
     { name: "Liquidity Pools", content: fetchLiquidityPool }
   ];
 
   return (
     <div className="flex min-h-screen flex-col gap-3 mx-4">
       {/* --------- DEX NAVBAR SECTION --------- */}
-      <div className=" w-full h-fit flex justify-start py-3 gap-4 border-b-[0.5px] border-opacity-60 border-gray-500  items-center">
+      <div className=" w-full h-fit flex justify-start py-3 gap-4 border-b-[0.5px] border-opacity-60 border-gray-300  items-center">
         <div className="border-r-[0.5px] pr-5 border-opacity-60 border-gray-300">
           <Image
-            className="p-1 rounded-md border-[0.25px] bg-white"
+            className="p-1 rounded-md border-[1px] bg-white"
             src={ethereum}
             width={30}
             height={30}
@@ -122,7 +98,7 @@ const Demo = () => {
               className={`${
                 currentDex === index
                   ? "flex justify-center items-center"
-                  : "flex justify-center items-center opacity-60"
+                  : "flex justify-center items-center opacity-30"
               }`}
               onClick={() => setCurrentDex(index)}
             >
@@ -132,7 +108,7 @@ const Demo = () => {
         ))}
       </div>
       {/* --------- DEX CONTENT HEADER SECTION --------- */}
-      <div className=" w-full h-fit flex justify-start text-white items-center">
+      <div className=" w-full h-fit flex justify-start text-black items-center">
         {/* DEX BANNER SECTION */}
         <div className="flex flex-col gap-3 w-full h-fit">
           <h2 className="text-3xl">Overview</h2>
@@ -154,10 +130,10 @@ const Demo = () => {
                   <AiFillCheckCircle className="text-green-400" size={16} />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <p className="text-white text-sm">
+                  <p className="text-black text-sm">
                     {allDexs[currentDex].about}
                   </p>
-                  <div className="text-white text-opacity-70 font-semibold text-xs flex justify-start items-center gap-1">
+                  <div className="text-gray-500 text-opacity-70 font-semibold text-xs flex justify-start items-center gap-1">
                     Total Pools:
                     {dexBannerData === 0 ? (
                       <p>Loading...</p>
@@ -169,16 +145,16 @@ const Demo = () => {
               </div>
             </div>
             {/* DEX BANNER IMAGE & INFO RIGHT SECTION */}
-            {/*<div></div> */}
+            <div className="">1</div>
           </div>
         </div>
       </div>
       {/* --------- DEX CONTENT NAVBAR SECTION --------- */}
       <div className="w-full h-fit border-b-[0.5px] border-opacity-60 py-3 border-gray-500 flex justify-between items-center">
-        <div className="text-white w-full h-fit flex justify-start items-center gap-5">
+        <div className=" w-full h-fit flex justify-start items-center gap-5">
           {dexContentNavHeading.map((element, index) => (
             <button
-              onClick={async () => {
+              onClick={() => {
                 setCurrentDexInfo(index);
               }}
               className=""
@@ -187,8 +163,8 @@ const Demo = () => {
               <h2
                 className={`${
                   currentDexInfo === index
-                    ? "text-white text-xs"
-                    : "text-white text-xs text-opacity-40"
+                    ? "text-black text-xs"
+                    : "text-gray-300 text-xs text-opacity-40"
                 }`}
               >
                 {element.name}
@@ -198,8 +174,22 @@ const Demo = () => {
         </div>
       </div>
       {/* --------- DEX CONTENT NAVBAR CONTENT SECTION --------- */}
-      <div className=" min-h-full rounded-md flex justify-center items-center w-full ">
-        <div className="max-h-[700px] w-full grid grid-cols-4 gap-5 overflow-y-scroll text-white">
+      <div className=" min-h-full rounded-md flex flex-col gap-3 w-full ">
+        {/* --------- DEX CONTENT NAVBAR CONTENT SEARCH FILTERS SECTION --------- */}
+        <div className="flex justify-between items-center">
+          <div className=" bg-gray-200 bg-opacity-30 flex justify-start items-center gap-1 py-1 px-2 w-2/12 rounded-md">
+            <CiSearch className="text-black" size={18} />
+            <input
+              disabled={isSearchEnabled}
+              className="bg-transparent text-black placeholder:font-normal w-full rounded-md text-sm font-thin focus:outline-none"
+              placeholder="Enter Pool Address"
+              onChange={(e) => handleOnSearchPool(e)}
+              value={poolSearchState}
+            />
+          </div>
+        </div>
+        {/* --------- DEX CONTENT NAVBAR CONTENT SECTION --------- */}
+        <div className="max-h-[650px] w-full grid grid-cols-4 gap-5 overflow-y-scroll text-white">
           {currentDexContent.length === 0 ? (
             <div className="flex justify-center col-span-4 items-center w-full h-[700px]">
               <Image
@@ -211,52 +201,7 @@ const Demo = () => {
             </div>
           ) : (
             currentDexContent.map((element, index) => (
-              <div
-                key={index + 1}
-                className="flex flex-col gap-3 p-2 bg-[#191D1F] rounded-md"
-              >
-                {/* --------- POOL HEADING SECTION --------- */}
-                <div className="flex justify-between  items-center">
-                  <h2 className="text-base font-light">
-                    {element.token0.symbol}/{element.token1.symbol}
-                  </h2>
-                  <p className="text-xs font-bold">{element.feeTier}</p>
-                </div>
-                <h2 className="text-xs">{element.id}</h2>
-                {/* --------- POOL TOKEN0 SECTION --------- */}
-                <div className="flex flex-col gap-1  bg-white bg-opacity-5 border-l-2 border-blue-600 rounded-tr-md rounded-br-md rounded-tl-none rounded-bl-none rounded-md p-2">
-                  <p className="text-sm font-semibold">{element.token0.name}</p>
-                  <p className="text-xs text-gray-400">
-                    TotalSupply: {element.token0.totalSupply}
-                  </p>
-                  <p className="text-xs text-gray-400">
-                    TVL: {element.totalValueLockedToken0}
-                  </p>
-                </div>
-                {/* --------- POOL TOKEN1 SECTION --------- */}
-                <div className="flex flex-col gap-1 bg-white bg-opacity-5 border-l-2 border-green-600 rounded-tr-md rounded-br-md rounded-tl-none rounded-bl-none p-2">
-                  <p className="text-sm font-semibold">{element.token1.name}</p>
-                  <p className="text-xs text-gray-400">
-                    Total Supply: {element.token1.totalSupply}
-                  </p>
-                  <p className="text-xs text-gray-400">
-                    TVL: {element.totalValueLockedToken1}
-                  </p>
-                </div>
-                <div className="flex justify-start items-center">
-                  <Link
-                    href={
-                      currentDex == 0
-                        ? `https://info.uniswap.org/#/pools/${element.id}`
-                        : `https://pancakeswap.finance/info/v3/eth/pairs/${element.id}`
-                    }
-                    className="py-1 px-2 bg-white flex justify-start items-center gap-2 bg-opacity-5 rounded-md"
-                  >
-                    <h2 className="text-xs">View more info</h2>
-                    <FaArrowRight size={12} className="text-white" />
-                  </Link>
-                </div>
-              </div>
+              <PoolCard key={index + 1} element={element} />
             ))
           )}
         </div>
