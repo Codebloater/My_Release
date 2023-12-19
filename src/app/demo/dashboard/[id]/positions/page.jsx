@@ -15,14 +15,13 @@ const Positions = ({ params }) => {
   const NonfungiblePositionManager_ADDRESS =
     "0xC36442b4a4522E871399CD717aBDD847Ab11FE88";
 
-  const [poolAddress, setPoolAddress] = useState("");
   const [fetchingPositions, setFetchingPositions] = useState(true);
   const [allFetchedData, setAllFetchedData] = useState([]);
   const [currentWalletAddress, setCurrentWalletAddress] = useState("");
 
   const Query = ` 
   {
-    positions(where: {owner: "0x78376289D3d525739A915f7d00373Bc7B3ABEa2D"}) {
+    positions(where: {owner: "${currentWalletAddress}"}) {
       id
       depositedToken0
       depositedToken1
