@@ -6,20 +6,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MdSpaceDashboard } from "react-icons/md";
 
-export default function DashboardLayout({ children }) {
+export default function DemoLayout({ children }) {
   const pathname = usePathname();
 
   let navbarSections = [
     {
       name: "Dashboard",
-      path: pathname
+      path: `/demo/dashboard`
     }
   ];
 
   return (
     <section className="bg-white flex justify-start items-start min-h-screen min-w-full ">
       {/* --------- DEMO PAGE NAVBAR SECTION --------- */}
-      <div className="  w-fit h-screen grid grid-cols-1 content-between py-5 px-2">
+      <div className="  w-fit h-screen grid grid-cols-1 content-between py-5 px-5">
         {/* --------- DEMO PAGE NAVBAR LEFT SECTION --------- */}
         <div className=" flex flex-col justify-start items-center gap-10">
           <Link
@@ -42,11 +42,8 @@ export default function DashboardLayout({ children }) {
           </div>
         </div>
         {/* --------- DEMO PAGE NAVBAR RIGHT SECTION --------- */}
-        <div className="py-1 px-2 text-xs rounded-md border-2 border-yellow-400 border-dashed text-yellow-500 font-semibold bg-opacity-10 bg-yellow-300">
-          <p>BETA</p>
-        </div>
       </div>
-      <div className=" w-full h-full">{children}</div>
+      <div className=" w-full h-full ">{children}</div>
     </section>
   );
 }
