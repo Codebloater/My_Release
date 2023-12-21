@@ -74,14 +74,14 @@ export default function Home() {
           </div>
         </div>
         {/* END SECTION */}
-        <div className="">
+        {/* <div className="">
           <Link
             href={"./demo"}
             className="text-black border-[1px] hover:bg-black hover:text-white hover:border-black text-sm rounded-full py-2 px-3"
           >
             LAUNCH APP
           </Link>
-        </div>
+            </div> */}
       </nav>
       {/* --------- HERO SECTION --------- */}
       <div className="flex flex-col gap-5 min-h-screen min-w-full justify-center items-center bg-no-repeat bg-center">
