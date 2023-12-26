@@ -8,6 +8,11 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {}
+    },
+    fontFamily: {
+      heroHeading: ["Rethink Sans", "sans-serif"],
+      heroInfo: ["Rethink Sans", "sans-serif"],
+      dateSpecial: ["Teko", "sans-serif"]
     }
   },
   plugins: []
