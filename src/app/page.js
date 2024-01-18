@@ -34,7 +34,7 @@ export default function Home() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/newsletter", {
+      const res = await fetch("https://poolfi.xyz/api/newsletter", {
         method: "POST",
         headers: {
           "Content-type": "application/json"
