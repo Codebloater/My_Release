@@ -6,16 +6,13 @@ import Image from "next/image";
 import Logo from "../app/icon.svg";
 import { FaXTwitter, FaLinkedin } from "react-icons/fa6";
 import { RiPlayCircleFill } from "react-icons/ri";
-import { usePathname } from "next/navigation";
-// https://poolfi.xyz/
+
 export default function Home() {
-  const pathname = usePathname();
   //* -------------------- STATE VARIABLES DECLARATION --------------------
   const [newsletterEmailAddress, setNewsletterEmailAddress] = useState("");
   const [newsletterResponseStatus, setNewsletterResponseStatus] = useState("");
 
   let allNavbars = [];
-  console.log(pathname);
 
   //* -------------------- FUNCTIONS DECLARATION --------------------
 
