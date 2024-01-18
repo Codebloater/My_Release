@@ -16,43 +16,6 @@ export default function Home() {
 
   //* -------------------- FUNCTIONS DECLARATION --------------------
 
-  //* Newsletter Subscription Form Handler
-  const HandleNewsletterSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!newsletterEmailAddress) {
-      alert("Add Email Address");
-      return;
-    }
-
-    try {
-      const res = await fetch(`https://poolfi.xyz/api/newsletter`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify({ emailAddress: newsletterEmailAddress })
-      });
-
-      if (res.ok) {
-        console.log("Subscribed to Email Successfully!");
-        setNewsletterResponseStatus("Subscribed!");
-        setNewsletterEmailAddress("");
-        setTimeout(() => {
-          setNewsletterResponseStatus("");
-        }, 2000);
-      } else {
-        setNewsletterResponseStatus("Error in Subscribing");
-        setTimeout(() => {
-          setNewsletterResponseStatus("");
-        }, 2000);
-        throw new Error("Error in Subscribing");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <main className="flex min-h-screen w-screen flex-col relative items-center">
       <video
@@ -82,17 +45,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-
         {/* END SECTION */}
-        <div className="flex justify-center items-center">
-          <Link
-            href={"/demo"}
-            className="text-black flex justify-end items-center gap-2 bg-white border-[0.5px] hover:text-black font-medium rounded-full text-sm px-3 py-2 text-center"
-          >
-            <RiPlayCircleFill size={20} />
-            Demo
-          </Link>
-        </div>
       </nav>
       {/* --------- HERO SECTION --------- */}
       <div className=" flex min-h-screen min-w-full justify-center items-center bg-opacity-40">
@@ -104,22 +57,14 @@ export default function Home() {
             Poolfi is where DeFi enthusiasts embrace automation, managing
             liquidity effortlessly in a dynamic and thriving ecosystem.
           </p>
-          {/* NEWSLETTER SIGNUP FORM */}
-          <form className="flex justify-center items-center gap-6">
-            <input
-              type="email"
-              value={newsletterEmailAddress}
-              onChange={(e) => setNewsletterEmailAddress(e.target.value)}
-              className="w-80 border-[0.5px] border-white placeholder:text-white text-black bg-transparent text-sm font-normal placeholder:font-normal outline-none rounded-full px-4 py-3"
-              placeholder="Enter Email Address"
-            />
-            <button
-              onClick={() => HandleNewsletterSubmit()}
-              className="text-sm text-black font-normal px-5 py-3 rounded-full bg-transparent border-[0.5px] bg-white"
-            >
-              <div>IGNITE</div>
-            </button>
-          </form>
+          {/* Demo Link */}
+          <Link
+            href={"/demo"}
+            className="text-black flex justify-end items-center gap-2 bg-white border-[0.5px] hover:text-black font-medium rounded-full text-sm px-3 py-2 text-center"
+          >
+            <RiPlayCircleFill size={20} />
+            Demo
+          </Link>
           <div className="flex justify-center items-center text-xs font-semibold">
             <div>
               {newsletterResponseStatus === "Subscribed!" ? (
