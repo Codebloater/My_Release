@@ -108,6 +108,10 @@ export default function Home() {
           <h2 className="text-7xl font-heroHeading text-black">
             Manage Liquidity Pools Effortlessly
           </h2>
+          <p className="text-center text-white">
+            Poolfi is where DeFi enthusiasts embrace automation, managing
+            liquidity effortlessly in a dynamic and thriving ecosystem.
+          </p>
           {/* NEWSLETTER SIGNUP FORM */}
           <form
             onSubmit={HandleNewsletterSubmit}
