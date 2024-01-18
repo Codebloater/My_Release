@@ -6,21 +6,16 @@ import Image from "next/image";
 import Logo from "../app/icon.svg";
 import { FaXTwitter, FaLinkedin } from "react-icons/fa6";
 import { RiPlayCircleFill } from "react-icons/ri";
-
+import { usePathname } from "next/navigation";
+// https://poolfi.xyz/
 export default function Home() {
+  const pathname = usePathname();
   //* -------------------- STATE VARIABLES DECLARATION --------------------
   const [newsletterEmailAddress, setNewsletterEmailAddress] = useState("");
   const [newsletterResponseStatus, setNewsletterResponseStatus] = useState("");
 
-  let featuresSection = [
-    {
-      heading: "Automation",
-      info: "Diversify your assets effortlessly with our portfolio management feature. Tailor your liquidity pools across multiple tokens and decentralized exchanges, reducing risk and maximizing opportunities. Achieve optimal asset allocation and strategic balance, ensuring a robust and diversified portfolio that aligns with your investment goals.",
-      logo: ""
-    }
-  ];
-
   let allNavbars = [];
+  console.log(pathname);
 
   //* -------------------- FUNCTIONS DECLARATION --------------------
 
@@ -34,7 +29,7 @@ export default function Home() {
     }
 
     try {
-      const res = await fetch("https://poolfi.xyz/api/newsletter", {
+      const res = await fetch(`https://poolfi.xyz/api/newsletter`, {
         method: "POST",
         headers: {
           "Content-type": "application/json"
