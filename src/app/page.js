@@ -105,10 +105,7 @@ export default function Home() {
             liquidity effortlessly in a dynamic and thriving ecosystem.
           </p>
           {/* NEWSLETTER SIGNUP FORM */}
-          <form
-            onSubmit={HandleNewsletterSubmit}
-            className="flex justify-center items-center gap-6"
-          >
+          <form className="flex justify-center items-center gap-6">
             <input
               type="email"
               value={newsletterEmailAddress}
@@ -117,7 +114,7 @@ export default function Home() {
               placeholder="Enter Email Address"
             />
             <button
-              type="submit"
+              onClick={() => HandleNewsletterSubmit()}
               className="text-sm text-black font-normal px-5 py-3 rounded-full bg-transparent border-[0.5px] bg-white"
             >
               <div>IGNITE</div>
