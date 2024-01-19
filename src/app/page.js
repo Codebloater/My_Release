@@ -50,30 +50,21 @@ export default function Home() {
       {/* --------- HERO SECTION --------- */}
       <div className=" flex min-h-screen min-w-full justify-center items-center bg-opacity-40">
         <div className="flex flex-col gap-10 justify-center items-center">
-          <h2 className="text-7xl font-heroHeading text-black">
+          <h2 className="text-7xl text-center font-heroHeading text-black">
             Manage Liquidity Pools Effortlessly
           </h2>
-          <p className="text-center text-white">
+          <p className="text-center text-white w-4/6">
             Poolfi is where DeFi enthusiasts embrace automation, managing
             liquidity effortlessly in a dynamic and thriving ecosystem.
           </p>
           {/* Demo Link */}
           <Link
-            href={"/demo"}
+            href={"https://youtu.be/JD_IvcW1490"}
             className="text-black flex justify-end items-center gap-2 bg-white border-[0.5px] hover:text-black font-medium rounded-full text-sm px-3 py-2 text-center"
           >
             <RiPlayCircleFill size={20} />
             Demo
           </Link>
-          <div className="flex justify-center items-center text-xs font-semibold">
-            <div>
-              {newsletterResponseStatus === "Subscribed!" ? (
-                <p className="text-green-500">{newsletterResponseStatus}</p>
-              ) : (
-                <p className="text-red-500">{newsletterResponseStatus}</p>
-              )}
-            </div>
-          </div>
           {/* SOCIAL MEDIA LINKS */}
           <div className="flex justify-center items-center text-white gap-10">
             <Link href={"https://twitter.com/pool_fi"}>
@@ -88,7 +79,7 @@ export default function Home() {
       {/* --------- FEATURES SECTION --------- */}
       <div className="text-white w-full min-h-fit mt-20 flex flex-col gap-10">
         <div className="flex justify-center items-center">
-          <Image src={"assets/tv.svg"} width={300} height={300} />
+          <Image src={"assets/tv.svg"} width={300} height={300} alt="Tv Icon" />
         </div>
         <div className="flex flex-col gap-10">
           <h2 className="text-yellow-300 font-dateSpecial text-5xl text-center">
